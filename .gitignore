@@ -1,0 +1,9 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+# UID dosyaları (otomatik üretilir)
+*.uid
+
+# macOS
+.DS_Store

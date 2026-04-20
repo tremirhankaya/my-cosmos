@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://bi24lx3cd6jjx"]
+
+[ext_resource type="Script" uid="uid://b5es0al00fgxx" path="res://ui/inventory_ui.gd" id="1_1d0dv"]
+
+[node name="InventoryUi" type="Control" unique_id=1149811036]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1d0dv")
+
+[node name="GridContainer" type="GridContainer" parent="." unique_id=1034416294]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -220.0
+offset_top = -150.0
+offset_right = 220.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SlotGrid" type="GridContainer" parent="GridContainer" unique_id=614528302]
+custom_minimum_size = Vector2(440, 300)
+layout_mode = 2
+columns = 9
