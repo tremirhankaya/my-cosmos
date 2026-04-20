@@ -6,19 +6,32 @@
 
 ## 🔴 EN SON NEREDE KALDIK
 
-**Tamamlanan:** Tüm item ve crafting tarifleri netleşti, item_db + crafting_db güncellendi.
+**Tamamlanan:**
+- Tüm item ve crafting tarifleri netleşti (item_db + crafting_db)
+- Ham Iron ayrı item olarak eklendi
+- Elle craft kaldırıldı, her şey station'da üretilir
+- Git repo kuruldu: github.com/tremirhankaya/my-cosmos, aktif branch: dev
 
-**Sıradaki adım: Workbench placement mekaniği**
-1. `station_node.gd` oluştur — dünyaya yerleştirilen station (E ile crafting açar)
-2. Inventory UI'a "Yerleştir" butonu ekle — structure itemlere özel
-3. `player.gd`'ye placement modu ekle — ghost preview + tıklayarak yerleştir
-4. Oyun başlangıcında envantere Workbench ekle (NPC şimdilik kod ile)
+**YARIN YAPILACAKLAR — sırasıyla:**
 
-**Sonraki büyük adımlar (sırasıyla):**
+### 1. Workbench Placement Mekaniği
+- `station_node.gd` yaz — dünyaya yerleşik station, E ile crafting açar
+- `inventory_ui.gd` — structure itemlere "Yerleştir" butonu
+- `player.gd` — placement modu (ghost preview + tıklayarak yerleştir)
+- Oyun başlangıcında envantere Workbench ekle (NPC şimdilik kod ile)
+
+### 2. Tarım Sistemi Tasarımı (önce mantık, sonra kod)
+Tasarlanacak sorular:
+- Tarla nasıl oluşur? (Hoe ile toprağa vur → tarlaya döner)
+- Tohum nasıl ekilir? (Tarla üzerinde E → tohum seç)
+- Sulama: Kova ile Kuyu'dan su çek → Watering Can'e doldur → tarlaya vur
+- Büyüme: zamana bağlı mı, adım bazlı mı?
+- Hasat: olgunlaşınca E ile topla
+
+### 3. Sonraki Büyük Adımlar
 - Tool mekaniği (Axe→ağaç, Pickaxe→taş/cevher, tier sistemi)
-- Dünya oluşumu (placeholder tile'lar + resource node spawn)
-- Tarım sistemi
-- Combat + hayvan sistemi
+- Dünya oluşumu (placeholder tile + resource node spawn)
+- Combat + hayvan sistemi (Hide, Raw Meat dropu)
 
 ---
 
