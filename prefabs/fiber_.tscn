@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://dh8kr145bcwy0"]
+
+[ext_resource type="Texture2D" uid="uid://hqggyblb1e6n" path="res://assets/fiber.png" id="1_b83n7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mt5gb"]
+size = Vector2(32, 32)
+
+[node name="Area2D" type="Area2D" unique_id=1176484443]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=787743199]
+texture = ExtResource("1_b83n7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=13349362]
+shape = SubResource("RectangleShape2D_mt5gb")

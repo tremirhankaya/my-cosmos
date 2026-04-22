@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://c8f5i4n32del8"]
+
+[ext_resource type="Script" uid="uid://bkgw304qywnbj" path="res://systems/station_node.gd" id="1_ey7v6"]
+[ext_resource type="Texture2D" uid="uid://dg6wy5xvycwe6" path="res://assets/work_bench.png" id="2_ey7v6"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pkg7o"]
+radius = 48.0
+
+[node name="WorkBench" type="Area2D" unique_id=82108097]
+script = ExtResource("1_ey7v6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1270902501]
+shape = SubResource("CircleShape2D_pkg7o")
+
+[node name="Label" type="Label" parent="CollisionShape2D" unique_id=1217095537]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Workbench"
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1096893169]
+texture = ExtResource("2_ey7v6")

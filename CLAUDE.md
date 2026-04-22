@@ -8,30 +8,36 @@
 
 **Tamamlanan:**
 - Tüm item ve crafting tarifleri netleşti (item_db + crafting_db)
-- Ham Iron ayrı item olarak eklendi
-- Elle craft kaldırıldı, her şey station'da üretilir
-- Git repo kuruldu: github.com/tremirhankaya/my-cosmos, aktif branch: dev
+- station_node.gd — E ile crafting açar, uzaklaşınca kapanır
+- Hotbar — ekranın altında 9 slot, 1-9 tuşlarıyla seçim
+- Genel envanter 45 slot (slot 10-54), hotbar 9 slot (slot 1-9)
+- Placement sistemi — hotbar'da structure seçili iken sol tıkla yerleştir
+- Cannot place uyarısı — engel varsa PlaceWarning label gösterir
+- world_generator.gd — noise tabanlı ağaç/rock/fiber spawn
+- Çayır biome'u temel hali hazır (zemin + resource node'lar)
+- Mouse pozisyonu: `get_viewport().get_camera_2d().get_global_mouse_position()`
 
-**YARIN YAPILACAKLAR — sırasıyla:**
+**TEMEL KURALLAR:**
+- Tüm yerleştirilebilir objeler 32x32 grid'e snap olur
+- Pozisyon: `(mouse_pos / 32).floor() * 32` — tile'ın sol üst köşesi
+- Z Index: zemin=0, resource node sprite=1, station sprite=0 (ağacın altında)
+- Prefab path'leri: `res://prefabs/tree_.tscn`, `rock_.tscn`, `fiber_.tscn`, `work_bench.tscn`
 
-### 1. Workbench Placement Mekaniği
-- `station_node.gd` yaz — dünyaya yerleşik station, E ile crafting açar
-- `inventory_ui.gd` — structure itemlere "Yerleştir" butonu
-- `player.gd` — placement modu (ghost preview + tıklayarak yerleştir)
-- Oyun başlangıcında envantere Workbench ekle (NPC şimdilik kod ile)
+**SIRADAKI ADIMLAR:**
 
-### 2. Tarım Sistemi Tasarımı (önce mantık, sonra kod)
-Tasarlanacak sorular:
-- Tarla nasıl oluşur? (Hoe ile toprağa vur → tarlaya döner)
-- Tohum nasıl ekilir? (Tarla üzerinde E → tohum seç)
-- Sulama: Kova ile Kuyu'dan su çek → Watering Can'e doldur → tarlaya vur
-- Büyüme: zamana bağlı mı, adım bazlı mı?
-- Hasat: olgunlaşınca E ile topla
+### 1. Tool Mekaniği
+- Axe ile ağaca vur → Wood Log düşer, ağaç yok olur
+- Pickaxe ile rock'a vur → Stone düşer
+- Fiber bitkisine E ile topla (zaten çalışıyor, test et)
+- Tool tier sistemi
 
-### 3. Sonraki Büyük Adımlar
-- Tool mekaniği (Axe→ağaç, Pickaxe→taş/cevher, tier sistemi)
-- Dünya oluşumu (placeholder tile + resource node spawn)
-- Combat + hayvan sistemi (Hide, Raw Meat dropu)
+### 2. Biome Sistemi Genişletme
+- Orman, Taşlık biome'ları ekle (noise tabanlı)
+- Su/gölet tile'ı ekle
+
+### 3. Tarım Sistemi
+- Hoe ile toprağa vur → tarla
+- Tohum ek, sula, hasat
 
 ---
 
