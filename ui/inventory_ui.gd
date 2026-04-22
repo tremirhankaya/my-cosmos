@@ -24,7 +24,7 @@ func _build_slots() -> void:
 		child.queue_free()
 	slot_panels.clear()
 
-	for i in Inventory.SLOT_COUNT:
+	for i in range(9, Inventory.SLOT_COUNT):
 		var panel = Panel.new()
 		# Slot boyutlarını belirle
 		panel.custom_minimum_size = Vector2(64, 64) 
@@ -44,14 +44,14 @@ func _refresh() -> void:
 	# Panel sayısı ile envanter verisi uyumlu mu kontrol et
 	if slot_panels.size() < Inventory.slots.size(): return
 	
-	for i in range(Inventory.slots.size()):
-		var slot = Inventory.slots[i]
+	for i in range(slot_panels.size()):
+		var slot = Inventory.slots[i + 9]
 		var label = slot_panels[i].get_child(0) as Label
-		
 		if slot["item"] != "":
 			label.text = str(slot["item"]) + "\n" + str(slot["quantity"])
 		else:
 			label.text = ""
+			
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"): # Escape tuşu vb.
