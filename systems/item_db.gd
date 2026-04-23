@@ -2,11 +2,11 @@ extends Node
 
 const ITEMS = {
 	# ── Ham maddeler ─────────────────────────────────────────────
-	"Wood Log":          {"type": "resource", "max_stack": 99},
-	"Stone":             {"type": "resource", "max_stack": 99},
+	"Wood Log":          {"type": "resource", "max_stack": 99, "placeable": true, "prefab": "res://prefabs/tree_.tscn"},
+	"Stone":             {"type": "resource", "max_stack": 99, "placeable": true, "prefab": "res://prefabs/rock_.tscn"},
 	"Iron Ore":          {"type": "resource", "max_stack": 99},
 	"Coal":              {"type": "resource", "max_stack": 99},
-	"Fiber":             {"type": "resource", "max_stack": 99},
+	"Fiber":             {"type": "resource", "max_stack": 99, "placeable": true, "prefab": "res://prefabs/fiber_.tscn"},
 
 	# ── İşlenmiş metaller ────────────────────────────────────────
 	"Ham Iron":          {"type": "resource", "max_stack": 99},  # Iron Ore → Stone Forge
@@ -78,17 +78,17 @@ const ITEMS = {
 	"Iron Leggings":     {"type": "armor", "slot": "legs",  "max_stack": 1},
 
 	# ── Yapılar / Yerleştirilebilir ──────────────────────────────
-	"Campfire":          {"type": "structure", "max_stack": 1},
-	"Bed":               {"type": "structure", "max_stack": 1},
-	"Stone Forge":       {"type": "structure", "max_stack": 1},
-	"Workbench":         {"type": "structure", "max_stack": 1},
-	"Iron Workbench":    {"type": "structure", "max_stack": 1},
-	"Smelter":           {"type": "structure", "max_stack": 1},
-	"Storage Chest":     {"type": "structure", "max_stack": 1},
-	"Conveyor Belt":     {"type": "structure", "max_stack": 1},
-	"Mining Drill":      {"type": "structure", "max_stack": 1},
-	"Kova":              {"type": "structure", "max_stack": 1},
-	"Kuyu":              {"type": "structure", "max_stack": 1},
+	"Campfire":          {"type": "structure", "max_stack": 1, "placeable": true, "prefab": "res://prefabs/work_bench.tscn"},
+	"Bed":               {"type": "structure", "max_stack": 1, "placeable": true, "prefab": "res://prefabs/work_bench.tscn"},
+	"Stone Forge":       {"type": "structure", "max_stack": 1, "placeable": true, "prefab": "res://prefabs/work_bench.tscn"},
+	"Workbench":         {"type": "structure", "max_stack": 1, "placeable": true, "prefab": "res://prefabs/work_bench.tscn"},
+	"Iron Workbench":    {"type": "structure", "max_stack": 1, "placeable": true, "prefab": "res://prefabs/work_bench.tscn"},
+	"Smelter":           {"type": "structure", "max_stack": 1, "placeable": true, "prefab": "res://prefabs/work_bench.tscn"},
+	"Storage Chest":     {"type": "structure", "max_stack": 1, "placeable": true, "prefab": "res://prefabs/work_bench.tscn"},
+	"Conveyor Belt":     {"type": "structure", "max_stack": 1, "placeable": true, "prefab": "res://prefabs/work_bench.tscn"},
+	"Mining Drill":      {"type": "structure", "max_stack": 1, "placeable": true, "prefab": "res://prefabs/work_bench.tscn"},
+	"Kova":              {"type": "structure", "max_stack": 1, "placeable": true, "prefab": "res://prefabs/work_bench.tscn"},
+	"Kuyu":              {"type": "structure", "max_stack": 1, "placeable": true, "prefab": "res://prefabs/work_bench.tscn"},
 
 	# ── Gemi parçaları (oyun sonu) ───────────────────────────────
 	"Gemi Govdesi":      {"type": "ship_part", "max_stack": 1},
@@ -102,3 +102,9 @@ func get_item(item_name: String) -> Dictionary:
 
 func get_type(item_name: String) -> String:
 	return get_item(item_name).get("type", "")
+
+func is_placeable(item_name: String) -> bool:
+	return get_item(item_name).get("placeable", false)
+
+func get_prefab(item_name: String) -> String:
+	return get_item(item_name).get("prefab", "")

@@ -14,13 +14,7 @@ var noise = FastNoiseLite.new()
 func _ready() -> void:
 	noise.seed = randi()
 	noise.frequency = 0.05
-	_paint_ground()
 	_generate_world()
-
-func _paint_ground() -> void:
-	for x in range(WORLD_TILES):
-		for y in range(WORLD_TILES):
-			tilemap.set_cell(Vector2i(x, y), 5, Vector2i(0, 0))
 
 func _generate_world() -> void:
 	var world = get_parent()
