@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cy8ujxa7ne6d7" path="res://scripts/player.gd" id="1_f3sb7"]
 [ext_resource type="Texture2D" uid="uid://dl5e7rfkawo1w" path="res://assets/player/Sprites/ATTACK 1/attack1_down.png" id="3_ikiii"]
-[ext_resource type="PackedScene" path="res://ui/Inventory_ui.tscn" id="3_tlwt5"]
+[ext_resource type="PackedScene" path="res://ui/inventory_ui.tscn" id="3_tlwt5"]
 [ext_resource type="PackedScene" uid="uid://daf4buaase884" path="res://ui/crafting_ui.tscn" id="4_036b0"]
 [ext_resource type="Texture2D" uid="uid://bg0ifpgbjs46v" path="res://assets/player/Sprites/ATTACK 1/attack1_left.png" id="4_cbp6q"]
 [ext_resource type="Texture2D" uid="uid://bbt06xlen06c2" path="res://assets/player/Sprites/ATTACK 1/attack1_right.png" id="5_26xuy"]
@@ -768,7 +768,6 @@ script = ExtResource("1_f3sb7")
 shape = SubResource("RectangleShape2D_fj7yv")
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=1550687018]
-scale = Vector2(2, 2)
 zoom = Vector2(3, 3)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=1337480280]
