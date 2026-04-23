@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://tt6usja0wglc"]
 
-[ext_resource type="Script" uid="uid://bsefenghjobc5" path="res://systems/resource_node.gd" id="1_wdovx"]
+[ext_resource type="Script" uid="uid://bsefenghjobc5" path="res://scripts/systems/resource_node.gd" id="1_wdovx"]
 [ext_resource type="Texture2D" uid="uid://bpxp184pme50h" path="res://icon.svg" id="2_ind5o"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_aqk2v"]

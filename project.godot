@@ -17,9 +17,9 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Inventory="*res://systems/inventory.gd"
-ItemDB="*res://systems/item_db.gd"
-CraftingDB="*res://systems/crafting_db.gd"
+Inventory="*res://scripts/systems/inventory.gd"
+ItemDB="*res://scripts/systems/item_db.gd"
+CraftingDB="*res://scripts/systems/crafting_db.gd"
 
 [display]
 

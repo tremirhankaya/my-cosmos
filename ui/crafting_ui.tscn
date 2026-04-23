@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://daf4buaase884"]
 
-[ext_resource type="Script" uid="uid://j71liv5wku88" path="res://ui/crafting_ui.gd" id="1_46k18"]
+[ext_resource type="Script" uid="uid://j71liv5wku88" path="res://scripts/ui/crafting_ui.gd" id="1_46k18"]
 
 [node name="CraftingUI" type="Control" unique_id=905139639]
 layout_mode = 3

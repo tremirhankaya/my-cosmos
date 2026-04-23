@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://u262vu20s10o"]
 
-[ext_resource type="Texture2D" uid="uid://x6cfa7gige7g" path="res://assets/grass.png" id="1_4ur0q"]
+[ext_resource type="Texture2D" uid="uid://x6cfa7gige7g" path="res://assets/environment/grass.png" id="1_4ur0q"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mt5gb"]
 size = Vector2(32, 32)

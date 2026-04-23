@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bcj1hwr2eavpg"]
 
-[ext_resource type="Texture2D" uid="uid://db0eho245qkp8" path="res://assets/rock.png" id="1_pg2fo"]
-[ext_resource type="Script" uid="uid://bsefenghjobc5" path="res://systems/resource_node.gd" id="2_script"]
+[ext_resource type="Texture2D" uid="uid://db0eho245qkp8" path="res://assets/items/rock.png" id="1_pg2fo"]
+[ext_resource type="Script" uid="uid://bsefenghjobc5" path="res://scripts/systems/resource_node.gd" id="2_script"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_interact"]
 radius = 48.0

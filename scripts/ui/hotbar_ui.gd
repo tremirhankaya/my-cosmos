@@ -15,13 +15,13 @@ func _ready() -> void:
 
 func _create_cursor_label() -> void:
 	var cursor_node = Control.new()
-	cursor_node.set_script(preload("res://ui/held_item_cursor.gd"))
+	cursor_node.set_script(preload("res://scripts/ui/held_item_cursor.gd"))
 	get_node("/root/World/HUD").call_deferred("add_child", cursor_node)
 
 func _create_split_popup() -> void:
 	var popup = PanelContainer.new()
 	popup.name = "SplitPopup"
-	popup.set_script(preload("res://ui/split_popup.gd"))
+	popup.set_script(preload("res://scripts/ui/split_popup.gd"))
 	get_node("/root/World/HUD").call_deferred("add_child", popup)
 
 func _build_slots() -> void:

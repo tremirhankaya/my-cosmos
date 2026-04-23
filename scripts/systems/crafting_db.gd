@@ -270,7 +270,7 @@ func _drop_on_ground(item_name: String, amount: int) -> void:
 	if players.size() == 0:
 		return
 	var player = players[0]
-	var ItemDropScript = preload("res://systems/item_drop.gd")
+	var ItemDropScript = preload("res://scripts/systems/item_drop.gd")
 	var drop = Area2D.new()
 	drop.set_script(ItemDropScript)
 	drop.item_name = item_name

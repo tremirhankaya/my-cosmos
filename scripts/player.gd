@@ -15,7 +15,7 @@ var _warning_timer: float = 0.0
 var facing_dir: String = "down"
 
 var _prefab_cache: Dictionary = {}
-const ItemDropScript = preload("res://systems/item_drop.gd")
+const ItemDropScript = preload("res://scripts/systems/item_drop.gd")
 
 # ── Placement sistemi ──
 var _is_placing: bool = false
@@ -266,10 +266,7 @@ func _try_interact() -> void:
 			station.interact()
 			return
 	var nodes = get_tree().get_nodes_in_group("resource_node")
-	for node in nodes:
-		if node.player_nearby:
-			node.interact()
-			return
+
 
 # ── Hareket ──
 func _physics_process(delta: float) -> void:
