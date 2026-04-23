@@ -15,12 +15,19 @@ var _warning_timer: float = 0.0
 var facing_dir: String = "down"
 
 var _prefab_cache: Dictionary = {}
+const ItemDropScript = preload("res://systems/item_drop.gd")
 
 # ── Placement sistemi ──
 var _is_placing: bool = false
 var _placement_preview: Polygon2D = null
 var _placement_valid: bool = false
 var _place_target: Vector2 = Vector2.ZERO
+
+# ── Breaking sistemi ──
+var _is_breaking: bool = false
+var _break_target: Node = null
+var _break_progress: float = 0.0
+var _break_effective_time: float = 0.0
 
 func _ready() -> void:
 	add_to_group("player")
@@ -52,12 +59,75 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed:
 		if event.keycode == KEY_E:
 			_try_interact()
+		if event.keycode == KEY_Q:
+			if Input.is_key_pressed(KEY_ALT):
+				_drop_item(true)   # Alt+Q → tüm stack'i at
+			else:
+				_drop_item(false)  # Q → 1 adet at
 
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
-			_start_placing()
+			_on_left_click()
 		else:
-			_finish_placing()
+			_on_left_release()
+
+# ── Sol tık: context'e göre aksiyon ──
+func _on_left_click() -> void:
+	if hotbar == null:
+		return
+	var item_name = hotbar.get_selected_item()
+	# Placeable item → placement mode
+	if item_name != "" and ItemDB.is_placeable(item_name):
+		_start_placing()
+		return
+	# Tool veya el → yakındaki resource'ı kırmaya başla
+	_try_start_breaking(item_name)
+
+func _on_left_release() -> void:
+	_finish_placing()
+	_stop_breaking()
+
+func _get_tool_level(item_name: String) -> int:
+	if item_name == "":
+		return 0  # el (hand)
+	var item = ItemDB.get_item(item_name)
+	if item.get("type", "") == "tool":
+		return item.get("tier", 1)
+	return 0  # tool değilse el sayılır
+
+# ── Breaking: basılı tut → progress bar dolar → kırılır ──
+func _try_start_breaking(item_name: String) -> void:
+	var tool_level = _get_tool_level(item_name)
+	for node in get_tree().get_nodes_in_group("resource_node"):
+		if node.player_nearby:
+			if tool_level < node.break_level:
+				_show_warning("Daha guclu alet gerekli!")
+				return
+			var multiplier = tool_level - node.break_level + 1
+			_is_breaking = true
+			_break_target = node
+			_break_progress = 0.0
+			_break_effective_time = node.break_time / multiplier
+			return
+
+func _update_breaking(delta: float) -> void:
+	if not is_instance_valid(_break_target) or not _break_target.player_nearby:
+		_stop_breaking()
+		return
+	_break_progress += delta
+	var ratio = _break_progress / _break_effective_time
+	_break_target.show_progress(ratio)
+	if _break_progress >= _break_effective_time:
+		_break_target._drop_and_destroy()
+		_stop_breaking()
+
+func _stop_breaking() -> void:
+	if _is_breaking:
+		if is_instance_valid(_break_target):
+			_break_target.hide_progress()
+		_is_breaking = false
+		_break_target = null
+		_break_progress = 0.0
 
 # ── Placement: basılı tut → sürükle → bırak ──
 func _start_placing() -> void:
@@ -113,7 +183,7 @@ func _check_tile_clear(pos: Vector2) -> bool:
 	query.exclude = [self.get_rid()]
 	if space.intersect_point(query).size() > 0:
 		return false
-	# Station overlap — tile bazlı karşılaştır (eski/yeni pozisyon fark etmez)
+	# Station overlap — tile bazlı karşılaştır
 	var tile = Vector2i(floor(pos.x / TILE), floor(pos.y / TILE))
 	for s in get_tree().get_nodes_in_group("station_node"):
 		var s_tile = Vector2i(floor(s.position.x / TILE), floor(s.position.y / TILE))
@@ -136,6 +206,36 @@ func _do_place() -> void:
 	node.position = _place_target + Vector2(TILE / 2, TILE / 2)
 	get_node("/root/World").add_child(node)
 	Inventory.remove_item(item_name, 1)
+
+# ── Item atma ──
+func _drop_item(drop_all: bool) -> void:
+	if hotbar == null:
+		return
+	var item_name = hotbar.get_selected_item()
+	if item_name == "":
+		return
+	var drop_amount = 1
+	if drop_all:
+		drop_amount = Inventory.get_quantity(item_name)
+	if drop_amount <= 0:
+		return
+	Inventory.remove_item(item_name, drop_amount)
+	_spawn_item_drop(item_name, drop_amount)
+
+func _spawn_item_drop(drop_name: String, drop_amount: int) -> void:
+	var drop = Area2D.new()
+	drop.set_script(ItemDropScript)
+	drop.item_name = drop_name
+	drop.quantity = drop_amount
+	# Baktığı yöne doğru at
+	var offset = Vector2.ZERO
+	match facing_dir:
+		"down":  offset = Vector2(0, 32)
+		"up":    offset = Vector2(0, -32)
+		"left":  offset = Vector2(-32, 0)
+		"right": offset = Vector2(32, 0)
+	drop.position = global_position + offset
+	get_node("/root/World").call_deferred("add_child", drop)
 
 # ── UI ──
 func _show_warning(text: String) -> void:
@@ -163,7 +263,7 @@ func _try_interact() -> void:
 			return
 
 # ── Hareket ──
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	var direction = Vector2.ZERO
 
 	if Input.is_action_pressed("ui_right") or Input.is_action_pressed("move_right"):
@@ -185,9 +285,13 @@ func _physics_process(_delta: float) -> void:
 	else:
 		_play_anim("idle_" + facing_dir)
 
-	# Placement preview her frame güncelle
+	# Placement preview güncelle
 	if _is_placing:
 		_update_placement_preview()
+
+	# Breaking progress güncelle
+	if _is_breaking:
+		_update_breaking(delta)
 
 	velocity = direction * SPEED
 	move_and_slide()

@@ -2,11 +2,13 @@ extends Node
 
 const ITEMS = {
 	# ── Ham maddeler ─────────────────────────────────────────────
-	"Wood Log":          {"type": "resource", "max_stack": 99, "placeable": true, "prefab": "res://prefabs/tree_.tscn"},
-	"Stone":             {"type": "resource", "max_stack": 99, "placeable": true, "prefab": "res://prefabs/rock_.tscn"},
-	"Iron Ore":          {"type": "resource", "max_stack": 99},
-	"Coal":              {"type": "resource", "max_stack": 99},
-	"Fiber":             {"type": "resource", "max_stack": 99, "placeable": true, "prefab": "res://prefabs/fiber_.tscn"},
+	# break_level: 0=el, 1=wooden, 2=stone, 3=iron
+	# break_time: baz kırılma süresi (saniye), tool çarpanıyla bölünür
+	"Wood Log":          {"type": "resource", "max_stack": 99, "break_level": 1, "break_time": 4.0, "icon": "res://assets/wood_.png", "placeable": true, "prefab": "res://prefabs/tree_.tscn"},
+	"Stone":             {"type": "resource", "max_stack": 99, "break_level": 0, "break_time": 4.0, "icon": "res://assets/rock.png", "placeable": true, "prefab": "res://prefabs/rock_.tscn"},
+	"Iron Ore":          {"type": "resource", "max_stack": 99, "break_level": 2, "break_time": 6.0},
+	"Coal":              {"type": "resource", "max_stack": 99, "break_level": 1, "break_time": 3.0},
+	"Fiber":             {"type": "resource", "max_stack": 99, "break_level": 0, "break_time": 0.3, "icon": "res://assets/fiber.png", "placeable": true, "prefab": "res://prefabs/fiber_.tscn"},
 
 	# ── İşlenmiş metaller ────────────────────────────────────────
 	"Ham Iron":          {"type": "resource", "max_stack": 99},  # Iron Ore → Stone Forge
@@ -108,3 +110,6 @@ func is_placeable(item_name: String) -> bool:
 
 func get_prefab(item_name: String) -> String:
 	return get_item(item_name).get("prefab", "")
+
+func get_icon(item_name: String) -> String:
+	return get_item(item_name).get("icon", "")
