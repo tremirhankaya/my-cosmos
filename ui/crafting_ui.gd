@@ -18,6 +18,10 @@ func _process(delta: float) -> void:
 			feedback_label.text = ""
 
 func open(station: String = "none") -> void:
+	# Envanter açıksa kapat
+	var inv_ui = get_node_or_null("/root/World/HUD/InventoryUi")
+	if inv_ui:
+		inv_ui.visible = false
 	current_station = station
 	title_label.text = "Crafting" if station == "none" else station.capitalize()
 	_refresh()

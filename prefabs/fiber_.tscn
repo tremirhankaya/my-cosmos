@@ -1,14 +1,18 @@
 [gd_scene format=3 uid="uid://dh8kr145bcwy0"]
 
 [ext_resource type="Texture2D" uid="uid://hqggyblb1e6n" path="res://assets/fiber.png" id="1_b83n7"]
+[ext_resource type="Script" uid="uid://bsefenghjobc5" path="res://systems/resource_node.gd" id="2_script"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_mt5gb"]
-size = Vector2(32, 32)
+[sub_resource type="CircleShape2D" id="CircleShape2D_interact"]
+radius = 48.0
 
 [node name="Area2D" type="Area2D" unique_id=1176484443]
+script = ExtResource("2_script")
+item_name = "Fiber"
+amount = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=787743199]
 texture = ExtResource("1_b83n7")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=13349362]
-shape = SubResource("RectangleShape2D_mt5gb")
+[node name="InteractArea" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_interact")

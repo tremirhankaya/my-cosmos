@@ -17,9 +17,13 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Inventory="*uid://bk8p58no45v0u"
-ItemDB="*uid://crsyqeqqija03"
-CraftingDB="*uid://blyg8a8i7srpy"
+Inventory="*res://systems/inventory.gd"
+ItemDB="*res://systems/item_db.gd"
+CraftingDB="*res://systems/crafting_db.gd"
+
+[display]
+
+window/stretch/mode="canvas_items"
 
 [input]
 
@@ -54,3 +58,4 @@ textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+2d/snap/snap_2d_transforms_to_pixel=true
