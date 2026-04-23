@@ -260,5 +260,20 @@ func craft(recipe_name: String, current_station: String = "none") -> bool:
 	for item in recipe["ingredients"]:
 		Inventory.remove_item(item, recipe["ingredients"][item])
 	var amount = recipe.get("output", 1)
-	Inventory.add_item(recipe_name, amount)
+	var added = Inventory.add_item(recipe_name, amount)
+	if not added:
+		_drop_on_ground(recipe_name, amount)
 	return true
+
+func _drop_on_ground(item_name: String, amount: int) -> void:
+	var players = get_tree().get_nodes_in_group("player")
+	if players.size() == 0:
+		return
+	var player = players[0]
+	var ItemDropScript = preload("res://systems/item_drop.gd")
+	var drop = Area2D.new()
+	drop.set_script(ItemDropScript)
+	drop.item_name = item_name
+	drop.quantity = amount
+	drop.position = player.global_position
+	get_node("/root/World").call_deferred("add_child", drop)

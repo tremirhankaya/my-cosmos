@@ -55,7 +55,7 @@ func _create_placement_preview() -> void:
 	_placement_preview.visible = false
 	get_node("/root/World").call_deferred("add_child", _placement_preview)
 
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed:
 		if event.keycode == KEY_E:
 			_try_interact()
@@ -73,6 +73,9 @@ func _input(event: InputEvent) -> void:
 
 # ── Sol tık: context'e göre aksiyon ──
 func _on_left_click() -> void:
+	if Inventory.is_holding():
+		_drop_held_to_ground()
+		return
 	if hotbar == null:
 		return
 	var item_name = hotbar.get_selected_item()
@@ -221,6 +224,12 @@ func _drop_item(drop_all: bool) -> void:
 		return
 	Inventory.remove_item(item_name, drop_amount)
 	_spawn_item_drop(item_name, drop_amount)
+
+func _drop_held_to_ground() -> void:
+	var drop_name = Inventory.held_item
+	var drop_amount = Inventory.held_quantity
+	Inventory._clear_held()
+	_spawn_item_drop(drop_name, drop_amount)
 
 func _spawn_item_drop(drop_name: String, drop_amount: int) -> void:
 	var drop = Area2D.new()
