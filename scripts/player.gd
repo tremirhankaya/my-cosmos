@@ -3,6 +3,7 @@ extends CharacterBody2D
 const SPEED = 200.0
 const TILE = 32
 const PLACE_RANGE = 2  # Kaç tile uzağa koyabilir (Chebyshev mesafesi)
+const BREAK_RANGE = 48.0  # Kırma menzili
 
 # 400x400 tile * 32px = 12800x12800
 const WORLD_SIZE = Vector2(12800, 12800)
@@ -15,7 +16,7 @@ var _warning_timer: float = 0.0
 var facing_dir: String = "down"
 
 var _prefab_cache: Dictionary = {}
-const ItemDropScript = preload("res://systems/item_drop.gd")
+const ItemDropScript = preload("res://scripts/systems/item_drop.gd")
 
 # ── Placement sistemi ──
 var _is_placing: bool = false
@@ -101,17 +102,29 @@ func _get_tool_level(item_name: String) -> int:
 # ── Breaking: basılı tut → progress bar dolar → kırılır ──
 func _try_start_breaking(item_name: String) -> void:
 	var tool_level = _get_tool_level(item_name)
+	var mouse_pos = get_global_mouse_position()
+	var best_node = null
+	var best_dist = INF
 	for node in get_tree().get_nodes_in_group("resource_node"):
-		if node.player_nearby:
-			if tool_level < node.break_level:
-				_show_warning("Daha guclu alet gerekli!")
-				return
-			var multiplier = tool_level - node.break_level + 1
-			_is_breaking = true
-			_break_target = node
-			_break_progress = 0.0
-			_break_effective_time = node.break_time / multiplier
-			return
+		if not node.player_nearby:
+			continue
+		var dist_to_player = node.global_position.distance_to(global_position)
+		if dist_to_player > BREAK_RANGE:
+			continue
+		var d = node.global_position.distance_to(mouse_pos)
+		if d < best_dist:
+			best_dist = d
+			best_node = node
+	if best_node == null:
+		return
+	if tool_level < best_node.break_level:
+		_show_warning("Daha guclu alet gerekli!")
+		return
+	var multiplier = tool_level - best_node.break_level + 1
+	_is_breaking = true
+	_break_target = best_node
+	_break_progress = 0.0
+	_break_effective_time = best_node.break_time / multiplier
 
 func _update_breaking(delta: float) -> void:
 	if not is_instance_valid(_break_target) or not _break_target.player_nearby:
@@ -266,10 +279,7 @@ func _try_interact() -> void:
 			station.interact()
 			return
 	var nodes = get_tree().get_nodes_in_group("resource_node")
-	for node in nodes:
-		if node.player_nearby:
-			node.interact()
-			return
+
 
 # ── Hareket ──
 func _physics_process(delta: float) -> void:

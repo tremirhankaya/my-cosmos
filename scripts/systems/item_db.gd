@@ -4,11 +4,11 @@ const ITEMS = {
 	# ── Ham maddeler ─────────────────────────────────────────────
 	# break_level: 0=el, 1=wooden, 2=stone, 3=iron
 	# break_time: baz kırılma süresi (saniye), tool çarpanıyla bölünür
-	"Wood Log":          {"type": "resource", "max_stack": 99, "break_level": 1, "break_time": 4.0, "icon": "res://assets/wood_.png", "placeable": true, "prefab": "res://prefabs/tree_.tscn"},
-	"Stone":             {"type": "resource", "max_stack": 99, "break_level": 0, "break_time": 4.0, "icon": "res://assets/rock.png", "placeable": true, "prefab": "res://prefabs/rock_.tscn"},
+	"Wood Log":          {"type": "resource", "max_stack": 99, "break_level": 1, "break_time": 4.0, "icon": "res://assets/items/wood_.png", "placeable": true, "prefab": "res://prefabs/tree_.tscn"},
+	"Stone":             {"type": "resource", "max_stack": 99, "break_level": 0, "break_time": 4.0, "icon": "res://assets/items/rock.png", "placeable": true, "prefab": "res://prefabs/rock_.tscn"},
 	"Iron Ore":          {"type": "resource", "max_stack": 99, "break_level": 2, "break_time": 6.0},
 	"Coal":              {"type": "resource", "max_stack": 99, "break_level": 1, "break_time": 3.0},
-	"Fiber":             {"type": "resource", "max_stack": 99, "break_level": 0, "break_time": 0.3, "icon": "res://assets/fiber.png", "placeable": true, "prefab": "res://prefabs/fiber_.tscn"},
+	"Fiber":             {"type": "resource", "max_stack": 99, "break_level": 0, "break_time": 0.3, "icon": "res://assets/items/fiber.png", "placeable": true, "prefab": "res://prefabs/fiber_.tscn"},
 
 	# ── İşlenmiş metaller ────────────────────────────────────────
 	"Ham Iron":          {"type": "resource", "max_stack": 99},  # Iron Ore → Stone Forge

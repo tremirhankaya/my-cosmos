@@ -64,32 +64,43 @@ Top-down 2D survival/crafting oyunu. Oyuncu kaynak toplar, crafting ile itemler 
 
 ## Proje Yapısı
 ```
-astro-point/
-├── player.gd              # CharacterBody2D, hareket + placement + breaking
-├── world.tscn             # Ana sahne
-├── systems/
-│   ├── inventory.gd       # Autoload — 54 slot + held item (drag-drop) state
-│   ├── item_db.gd         # Autoload — tüm item tanımları + icon/break_level/break_time
-│   ├── crafting_db.gd     # Autoload — tarifler + craft mantığı
-│   ├── resource_node.gd   # Area2D — toplanabilir kaynak düğümü
-│   └── item_drop.gd       # Area2D — yerde duran item (pickup on walk)
-├── ui/
-│   ├── inventory_ui.gd    # Escape ile açılır, 45 slot grid + drag-drop
-│   ├── crafting_ui.gd     # Station bazlı crafting menüsü
-│   ├── hotbar_ui.gd       # 9 slot hotbar + drag-drop
-│   ├── held_item_cursor.gd # Mouse'u takip eden taşınan item görseli
-│   ├── split_popup.gd     # Alt+click stack bölme popup'ı
-│   ├── Inventory_ui.tscn
+my-cosmos/
+├── world.tscn                 # Ana sahne
+├── scripts/                   # TÜM kod dosyaları (.gd) burada
+│   ├── player.gd              # CharacterBody2D, hareket + placement + breaking
+│   ├── systems/               # Oyun mantığı & autoload'lar
+│   │   ├── inventory.gd       # Autoload — 54 slot + held item (drag-drop)
+│   │   ├── item_db.gd         # Autoload — tüm item tanımları
+│   │   ├── crafting_db.gd     # Autoload — tarifler + craft mantığı
+│   │   ├── resource_node.gd   # Area2D — toplanabilir kaynak düğümü
+│   │   ├── item_drop.gd       # Area2D — yerde duran item (pickup)
+│   │   ├── station_node.gd    # Area2D — crafting station etkileşimi
+│   │   └── world_generator.gd # Noise tabanlı dünya oluşturma
+│   └── ui/                    # UI bileşen kodları
+│       ├── inventory_ui.gd    # Escape ile açılır, 45 slot grid + drag-drop
+│       ├── crafting_ui.gd     # Station bazlı crafting menüsü
+│       ├── hotbar_ui.gd       # 9 slot hotbar + drag-drop
+│       ├── held_item_cursor.gd # Mouse'u takip eden taşınan item görseli
+│       └── split_popup.gd     # Alt+click stack bölme popup'ı
+├── ui/                        # UI sahne dosyaları (.tscn)
+│   ├── inventory_ui.tscn
 │   └── crafting_ui.tscn
-└── prefabs/
-    ├── tree_.tscn, rock_.tscn, fiber_.tscn
-    └── work_bench.tscn
+├── prefabs/                   # Prefab sahne dosyaları
+│   ├── tree_.tscn, rock_.tscn, fiber_.tscn, grass_.tscn
+│   ├── item_node.tscn
+│   └── work_bench.tscn
+└── assets/
+    ├── items/                 # Item ikonları (wood_.png, rock.png, fiber.png, work_bench.png)
+    ├── environment/           # Çevre sprite'ları (tree.png, grass.png)
+    ├── tiles/                 # Zemin tile'ları (water.png)
+    └── player/                # Oyuncu sprite sheet'leri
+        └── Sprites/           # IDLE, RUN, ATTACK 1, ATTACK 2
 ```
 
 ## Autoload / Singleton'lar
-- `Inventory` → systems/inventory.gd
-- `ItemDB` → systems/item_db.gd
-- `CraftingDB` → systems/crafting_db.gd
+- `Inventory` → scripts/systems/inventory.gd
+- `ItemDB` → scripts/systems/item_db.gd
+- `CraftingDB` → scripts/systems/crafting_db.gd
 
 ---
 

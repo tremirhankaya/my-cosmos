@@ -92,7 +92,7 @@ func hide_progress() -> void:
 	_progress_bg.visible = false
 	_progress_fill.visible = false
 
-const ItemDropScript = preload("res://systems/item_drop.gd")
+const ItemDropScript = preload("res://scripts/systems/item_drop.gd")
 
 func _drop_and_destroy() -> void:
 	_spawn_drop(item_name, amount)

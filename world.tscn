@@ -1,16 +1,16 @@
 [gd_scene format=3 uid="uid://dxaqxl66qcjpi"]
 
-[ext_resource type="Script" uid="uid://cy8ujxa7ne6d7" path="res://player.gd" id="1_f3sb7"]
+[ext_resource type="Script" uid="uid://cy8ujxa7ne6d7" path="res://scripts/player.gd" id="1_f3sb7"]
 [ext_resource type="Texture2D" uid="uid://dl5e7rfkawo1w" path="res://assets/player/Sprites/ATTACK 1/attack1_down.png" id="3_ikiii"]
-[ext_resource type="PackedScene" uid="uid://bi24lx3cd6jjx" path="res://ui/Inventory_ui.tscn" id="3_tlwt5"]
+[ext_resource type="PackedScene" path="res://ui/inventory_ui.tscn" id="3_tlwt5"]
 [ext_resource type="PackedScene" uid="uid://daf4buaase884" path="res://ui/crafting_ui.tscn" id="4_036b0"]
 [ext_resource type="Texture2D" uid="uid://bg0ifpgbjs46v" path="res://assets/player/Sprites/ATTACK 1/attack1_left.png" id="4_cbp6q"]
 [ext_resource type="Texture2D" uid="uid://bbt06xlen06c2" path="res://assets/player/Sprites/ATTACK 1/attack1_right.png" id="5_26xuy"]
-[ext_resource type="Script" uid="uid://2m7wo5g1c6du" path="res://ui/hotbar_ui.gd" id="5_ioo17"]
+[ext_resource type="Script" uid="uid://2m7wo5g1c6du" path="res://scripts/ui/hotbar_ui.gd" id="5_ioo17"]
 [ext_resource type="Texture2D" uid="uid://crtcoe055ymkg" path="res://assets/player/Sprites/ATTACK 1/attack1_up.png" id="6_bc84e"]
 [ext_resource type="Texture2D" uid="uid://bossl6v24j8wr" path="res://assets/player/Sprites/IDLE/idle_down.png" id="7_wukud"]
 [ext_resource type="Texture2D" uid="uid://0pa87kn8ysqf" path="res://assets/player/Sprites/IDLE/idle_left.png" id="8_il2jm"]
-[ext_resource type="Script" uid="uid://dde0vak4g1ox" path="res://systems/world_generator.gd" id="9_ioo17"]
+[ext_resource type="Script" uid="uid://dde0vak4g1ox" path="res://scripts/systems/world_generator.gd" id="9_ioo17"]
 [ext_resource type="Texture2D" uid="uid://v2ea7817j450" path="res://assets/player/Sprites/IDLE/idle_right.png" id="9_wjb0r"]
 [ext_resource type="Texture2D" uid="uid://dsatbjgpgd1l2" path="res://assets/player/Sprites/IDLE/idle_up.png" id="10_mc2jv"]
 [ext_resource type="Texture2D" uid="uid://by6203n4fx7a7" path="res://assets/player/Sprites/RUN/run_down.png" id="11_bo7i5"]
@@ -768,7 +768,6 @@ script = ExtResource("1_f3sb7")
 shape = SubResource("RectangleShape2D_fj7yv")
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=1550687018]
-scale = Vector2(2, 2)
 zoom = Vector2(3, 3)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=1337480280]
