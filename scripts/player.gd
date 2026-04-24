@@ -3,7 +3,7 @@ extends CharacterBody2D
 const SPEED = 200.0
 const TILE = 32
 const PLACE_RANGE = 2  # Kaç tile uzağa koyabilir (Chebyshev mesafesi)
-const BREAK_RANGE = 48.0  # Kırma menzili (1.5 tile)
+const BREAK_RANGE = 48.0  # Kırma menzili
 
 # 400x400 tile * 32px = 12800x12800
 const WORLD_SIZE = Vector2(12800, 12800)
