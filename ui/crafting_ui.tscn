@@ -35,8 +35,8 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="FeedbackLabel" type="Label" parent="PanelContainer/VBoxContainer" unique_id=111111111]
-layout_mode = 2
 custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
 
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/VBoxContainer" unique_id=2118620583]
 custom_minimum_size = Vector2(280, 380)
