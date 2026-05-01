@@ -1,29 +1,22 @@
 extends Area2D
 
-# ── Break Level Sistemi ──────────────────────────────────
-# Level 0 = El ile kırılır (fiber, çalı)
-# Level 1 = En az Wooden tool gerekir (ağaç, taş)
-# Level 2 = En az Stone tool gerekir (kömür, demir cevheri)
-# Level 3 = En az Iron tool gerekir (sert cevherler)
-#
-# Tool seviyeleri (ItemDB'deki tier):
-#   0 = El (hand)
-#   1 = Wooden (tahta)
-#   2 = Stone (taş)
-#   3 = Iron (demir)
+# ── Tool Sistemi ─────────────────────────────────────────
+# required_tool_type: hangi alet kategorisi gerekli ("axe", "pickaxe", "" = el)
+# min_tier: o kategoride minimum tier (1=wooden, 2=stone, 3=iron)
 #
 # Süre formülü:
-#   çarpan = tool_level - break_level + 1
+#   çarpan = tool_tier - min_tier + 1
 #   efektif süre = break_time / çarpan
-#   tool_level < break_level → kırılamaz
 # ─────────────────────────────────────────────────────────
 
 @export var item_name: String = "Wood Log"
-@export var amount: int = 1
 
 # ItemDB'den okunur (_ready'de)
-var break_level: int = 0
+var min_tier: int = 0
 var break_time: float = 4.0
+var required_tool_type: String = ""
+var hand_allowed: bool = false
+var drops: Array = []
 var player_nearby: bool = false
 var _progress_bg: Polygon2D = null
 var _progress_fill: Polygon2D = null
@@ -36,8 +29,11 @@ func _ready() -> void:
 	add_to_group("resource_node")
 	# ItemDB'den break verilerini oku
 	var data = ItemDB.get_item(item_name)
-	break_level = data.get("break_level", 0)
+	min_tier = data.get("min_tier", 0)
 	break_time = data.get("break_time", 4.0)
+	required_tool_type = data.get("required_tool_type", "")
+	hand_allowed = data.get("hand_allowed", true)
+	drops = data.get("drops", [])
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
 	_create_progress_bar()
@@ -50,9 +46,9 @@ func _on_body_exited(body: Node) -> void:
 	if body.is_in_group("player"):
 		player_nearby = false
 
-# E tuşu — sadece el ile toplanabilir kaynaklar (break_level 0)
+# E tuşu — sadece el ile toplanabilir kaynaklar (required_tool_type yok)
 func interact() -> void:
-	if player_nearby and break_level == 0:
+	if player_nearby and required_tool_type == "":
 		_drop_and_destroy()
 
 # ── Progress bar ──
@@ -95,7 +91,12 @@ func hide_progress() -> void:
 const ItemDropScript = preload("res://scripts/systems/item_drop.gd")
 
 func _drop_and_destroy() -> void:
-	_spawn_drop(item_name, amount)
+	for entry in drops:
+		var chance = entry.get("chance", 1.0)
+		if randf() > chance:
+			continue
+		var amount = randi_range(entry.get("min", 1), entry.get("max", 1))
+		_spawn_drop(entry["item"], amount)
 	queue_free()
 
 func _spawn_drop(drop_name: String, drop_amount: int) -> void:

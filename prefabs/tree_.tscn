@@ -11,8 +11,7 @@ size = Vector2(33, 34)
 
 [node name="Area2D" type="Area2D" unique_id=1176484443]
 script = ExtResource("2_script")
-item_name = "Wood Log"
-amount = 2
+item_name = "Tree"
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=787743199]
 z_index = 1

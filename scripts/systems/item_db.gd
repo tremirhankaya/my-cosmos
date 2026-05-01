@@ -4,12 +4,13 @@ const ITEMS = {
 	# ── Ham maddeler ─────────────────────────────────────────────
 	# break_level: 0=el, 1=wooden, 2=stone, 3=iron
 	# break_time: baz kırılma süresi (saniye), tool çarpanıyla bölünür
-	"Wood Log":          {"type": "resource", "max_stack": 99, "break_level": 1, "break_time": 4.0, "icon": "res://assets/items/wood_.png", "placeable": true, "prefab": "res://prefabs/tree_.tscn"},
-	"Stone":             {"type": "resource", "max_stack": 99, "break_level": 0, "break_time": 4.0, "icon": "res://assets/items/rock.png", "placeable": true, "prefab": "res://prefabs/rock_.tscn"},
-	"Iron Ore":          {"type": "resource", "max_stack": 99, "break_level": 2, "break_time": 6.0},
-	"Coal":              {"type": "resource", "max_stack": 99, "break_level": 1, "break_time": 3.0},
-	"Fiber":             {"type": "resource", "max_stack": 99, "break_level": 0, "break_time": 0.3, "icon": "res://assets/items/fiber.png", "placeable": true, "prefab": "res://prefabs/fiber_.tscn"},
-
+	"Tree":      {"required_tool_type": "axe",     "min_tier": 0, "hand_allowed": true,  "break_time": 4.0, "drops": [{"item": "Wood Log", "min": 3, "max": 5}]},
+	"Wood Log":  {"type": "resource", "max_stack": 99, "icon": "res://assets/items/wood_.png"},
+	"Stone":     {"type": "resource", "max_stack": 99, "required_tool_type": "pickaxe", "min_tier": 0, "hand_allowed": true,  "break_time": 4.0, "icon": "res://assets/items/rock.png", "placeable": true, "prefab": "res://prefabs/rock_.tscn", "drops": [{"item": "Stone",    "min": 2, "max": 4}]},
+	"Iron Ore":  {"type": "resource", "max_stack": 99, "required_tool_type": "pickaxe", "min_tier": 2, "hand_allowed": false, "break_time": 6.0, "drops": [{"item": "Iron Ore", "min": 1, "max": 2}]},
+	"Coal":      {"type": "resource", "max_stack": 99, "required_tool_type": "pickaxe", "min_tier": 1, "hand_allowed": false, "break_time": 3.0, "drops": [{"item": "Coal",     "min": 1, "max": 3}]},
+	"Fiber":     {"type": "resource", "max_stack": 99, "required_tool_type": "",        "min_tier": 0, "hand_allowed": true,  "break_time": 0.3, "icon": "res://assets/items/fiber.png", "placeable": false, "prefab": "res://prefabs/fiber_.tscn", "drops": [{"item": "Fiber", "min": 1, "max": 2}]},
+	
 	# ── İşlenmiş metaller ────────────────────────────────────────
 	"Ham Iron":          {"type": "resource", "max_stack": 99},  # Iron Ore → Stone Forge
 	"Islenmis Iron":     {"type": "resource", "max_stack": 99},  # Ham Iron → Smelter
@@ -45,18 +46,18 @@ const ITEMS = {
 
 	# ── Aletler ──────────────────────────────────────────────────
 	# Kazma: Stone/Coal (tier1+), Iron Ore (tier2+ verimsiz, tier3 verimli)
-	"Wooden Pickaxe":    {"type": "tool", "tool_type": "pickaxe", "tier": 1, "max_stack": 1},
-	"Stone Pickaxe":     {"type": "tool", "tool_type": "pickaxe", "tier": 2, "max_stack": 1},
-	"Iron Pickaxe":      {"type": "tool", "tool_type": "pickaxe", "tier": 3, "max_stack": 1},
+	"Wooden Pickaxe":    {"type": "tool", "tool_type": "pickaxe", "tier": 1, "max_stack": 1, "max_durability": 50},
+	"Stone Pickaxe":     {"type": "tool", "tool_type": "pickaxe", "tier": 2, "max_stack": 1, "max_durability": 150},
+	"Iron Pickaxe":      {"type": "tool", "tool_type": "pickaxe", "tier": 3, "max_stack": 1, "max_durability": 400},
 	# Balta: Wood Log keser
-	"Wooden Axe":        {"type": "tool", "tool_type": "axe",     "tier": 1, "max_stack": 1},
-	"Stone Axe":         {"type": "tool", "tool_type": "axe",     "tier": 2, "max_stack": 1},
-	"Iron Axe":          {"type": "tool", "tool_type": "axe",     "tier": 3, "max_stack": 1},
+	"Wooden Axe":        {"type": "tool", "tool_type": "axe",     "tier": 1, "max_stack": 1, "max_durability": 50},
+	"Stone Axe":         {"type": "tool", "tool_type": "axe",     "tier": 2, "max_stack": 1, "max_durability": 150},
+	"Iron Axe":          {"type": "tool", "tool_type": "axe",     "tier": 3, "max_stack": 1, "max_durability": 400},
 	# Çapa: toprağı sürer
-	"Wooden Hoe":        {"type": "tool", "tool_type": "hoe",     "tier": 1, "max_stack": 1},
-	"Iron Hoe":          {"type": "tool", "tool_type": "hoe",     "tier": 2, "max_stack": 1},
+	"Wooden Hoe":        {"type": "tool", "tool_type": "hoe",     "tier": 1, "max_stack": 1, "max_durability": 50},
+	"Iron Hoe":          {"type": "tool", "tool_type": "hoe",     "tier": 2, "max_stack": 1, "max_durability": 200},
 	# Sulama
-	"Watering Can":      {"type": "tool", "tool_type": "water",   "tier": 1, "max_stack": 1},
+	"Watering Can":      {"type": "tool", "tool_type": "water",   "tier": 1, "max_stack": 1, "max_durability": 100},
 
 	# ── Silahlar ─────────────────────────────────────────────────
 	"Wooden Sword":      {"type": "weapon", "max_stack": 1},
@@ -80,17 +81,17 @@ const ITEMS = {
 	"Iron Leggings":     {"type": "armor", "slot": "legs",  "max_stack": 1},
 
 	# ── Yapılar / Yerleştirilebilir ──────────────────────────────
-	"Campfire":          {"type": "structure", "max_stack": 1, "placeable": true, "prefab": "res://prefabs/work_bench.tscn"},
-	"Bed":               {"type": "structure", "max_stack": 1, "placeable": true, "prefab": "res://prefabs/work_bench.tscn"},
-	"Stone Forge":       {"type": "structure", "max_stack": 1, "placeable": true, "prefab": "res://prefabs/work_bench.tscn"},
-	"Workbench":         {"type": "structure", "max_stack": 1, "placeable": true, "prefab": "res://prefabs/work_bench.tscn"},
-	"Iron Workbench":    {"type": "structure", "max_stack": 1, "placeable": true, "prefab": "res://prefabs/work_bench.tscn"},
-	"Smelter":           {"type": "structure", "max_stack": 1, "placeable": true, "prefab": "res://prefabs/work_bench.tscn"},
-	"Storage Chest":     {"type": "structure", "max_stack": 1, "placeable": true, "prefab": "res://prefabs/work_bench.tscn"},
-	"Conveyor Belt":     {"type": "structure", "max_stack": 1, "placeable": true, "prefab": "res://prefabs/work_bench.tscn"},
-	"Mining Drill":      {"type": "structure", "max_stack": 1, "placeable": true, "prefab": "res://prefabs/work_bench.tscn"},
-	"Kova":              {"type": "structure", "max_stack": 1, "placeable": true, "prefab": "res://prefabs/work_bench.tscn"},
-	"Kuyu":              {"type": "structure", "max_stack": 1, "placeable": true, "prefab": "res://prefabs/work_bench.tscn"},
+	"Campfire":          {"type": "structure", "max_stack": 1, "placeable": true, "prefab": "res://prefabs/work_bench.tscn", "breakable": true, "required_tool_type": "",        "min_tier": 0, "break_time": 2.0, "drops": [{"item": "Campfire",       "min": 1, "max": 1}]},
+	"Bed":               {"type": "structure", "max_stack": 1, "placeable": true, "prefab": "res://prefabs/work_bench.tscn", "breakable": true, "required_tool_type": "axe",     "min_tier": 1, "break_time": 3.0, "drops": [{"item": "Bed",            "min": 1, "max": 1}]},
+	"Stone Forge":       {"type": "structure", "max_stack": 1, "placeable": true, "prefab": "res://prefabs/work_bench.tscn", "breakable": true, "required_tool_type": "pickaxe", "min_tier": 1, "break_time": 5.0, "drops": [{"item": "Stone Forge",    "min": 1, "max": 1}]},
+	"Workbench":         {"type": "structure", "max_stack": 1, "placeable": true, "prefab": "res://prefabs/work_bench.tscn", "breakable": true, "required_tool_type": "axe",     "min_tier": 1, "break_time": 4.0, "drops": [{"item": "Workbench",      "min": 1, "max": 1}]},
+	"Iron Workbench":    {"type": "structure", "max_stack": 1, "placeable": true, "prefab": "res://prefabs/work_bench.tscn", "breakable": true, "required_tool_type": "pickaxe", "min_tier": 2, "break_time": 6.0, "drops": [{"item": "Iron Workbench", "min": 1, "max": 1}]},
+	"Smelter":           {"type": "structure", "max_stack": 1, "placeable": true, "prefab": "res://prefabs/work_bench.tscn", "breakable": true, "required_tool_type": "pickaxe", "min_tier": 2, "break_time": 6.0, "drops": [{"item": "Smelter",        "min": 1, "max": 1}]},
+	"Storage Chest":     {"type": "structure", "max_stack": 1, "placeable": true, "prefab": "res://prefabs/work_bench.tscn", "breakable": true, "required_tool_type": "axe",     "min_tier": 1, "break_time": 3.0, "drops": [{"item": "Storage Chest",  "min": 1, "max": 1}]},
+	"Conveyor Belt":     {"type": "structure", "max_stack": 1, "placeable": true, "prefab": "res://prefabs/work_bench.tscn", "breakable": true, "required_tool_type": "axe",     "min_tier": 1, "break_time": 2.0, "drops": [{"item": "Conveyor Belt",  "min": 1, "max": 1}]},
+	"Mining Drill":      {"type": "structure", "max_stack": 1, "placeable": true, "prefab": "res://prefabs/work_bench.tscn", "breakable": true, "required_tool_type": "pickaxe", "min_tier": 2, "break_time": 6.0, "drops": [{"item": "Mining Drill",   "min": 1, "max": 1}]},
+	"Kova":              {"type": "structure", "max_stack": 1, "placeable": true, "prefab": "res://prefabs/work_bench.tscn", "breakable": true, "required_tool_type": "",        "min_tier": 0, "break_time": 2.0, "drops": [{"item": "Kova",           "min": 1, "max": 1}]},
+	"Kuyu":              {"type": "structure", "max_stack": 1, "placeable": true, "prefab": "res://prefabs/work_bench.tscn", "breakable": true, "required_tool_type": "pickaxe", "min_tier": 1, "break_time": 4.0, "drops": [{"item": "Kuyu",           "min": 1, "max": 1}]},
 
 	# ── Gemi parçaları (oyun sonu) ───────────────────────────────
 	"Gemi Govdesi":      {"type": "ship_part", "max_stack": 1},

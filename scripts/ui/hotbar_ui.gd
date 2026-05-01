@@ -59,6 +59,23 @@ func _build_slots() -> void:
 		qty_label.visible = false
 		panel.add_child(qty_label)
 
+		var dur_bg = ColorRect.new()
+		dur_bg.name = "DurBg"
+		dur_bg.color = Color(0.2, 0.2, 0.2, 0.8)
+		dur_bg.size = Vector2(64, 4)
+		dur_bg.position = Vector2(0, 60)
+		dur_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		dur_bg.visible = false
+		panel.add_child(dur_bg)
+
+		var dur_fill = ColorRect.new()
+		dur_fill.name = "DurFill"
+		dur_fill.size = Vector2(64, 4)
+		dur_fill.position = Vector2(0, 60)
+		dur_fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		dur_fill.visible = false
+		panel.add_child(dur_fill)
+
 		add_child(panel)
 		slot_panels.append(panel)
 
@@ -86,6 +103,7 @@ func _refresh() -> void:
 			icon.texture = null
 			qty.visible = false
 			label.text = ""
+	_update_durability_bar()
 
 func _update_selection() -> void:
 	for i in SLOT_COUNT:
@@ -94,6 +112,34 @@ func _update_selection() -> void:
 			panel.add_theme_stylebox_override("panel", _selected_style())
 		else:
 			panel.remove_theme_stylebox_override("panel")
+	_update_durability_bar()
+
+func _update_durability_bar() -> void:
+	for i in SLOT_COUNT:
+		var panel = slot_panels[i]
+		var dur_bg = panel.get_node("DurBg")
+		var dur_fill = panel.get_node("DurFill")
+		if i != selected_slot:
+			dur_bg.visible = false
+			dur_fill.visible = false
+			continue
+		var slot = Inventory.slots[i]
+		var durability = slot.get("durability", -1)
+		if durability == -1:
+			dur_bg.visible = false
+			dur_fill.visible = false
+			continue
+		var max_dur = ItemDB.get_item(slot["item"]).get("max_durability", 1)
+		var ratio = float(durability) / float(max_dur)
+		dur_bg.visible = true
+		dur_fill.visible = true
+		dur_fill.size.x = 64.0 * ratio
+		if ratio > 0.5:
+			dur_fill.color = Color(0.2, 0.9, 0.2)
+		elif ratio > 0.25:
+			dur_fill.color = Color(0.9, 0.7, 0.1)
+		else:
+			dur_fill.color = Color(0.9, 0.2, 0.2)
 
 func _selected_style() -> StyleBoxFlat:
 	var style = StyleBoxFlat.new()

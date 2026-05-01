@@ -39,6 +39,15 @@ func _ready() -> void:
 	Inventory.add_item("Workbench", 1)
 	Inventory.add_item("Stone", 10)
 	Inventory.add_item("Fiber", 10)
+	Inventory.add_item("Wooden Axe", 1)
+	Inventory.add_item("Stone Axe", 1)
+	Inventory.add_item("Iron Axe", 1)
+	Inventory.add_item("Wooden Pickaxe", 1)
+	Inventory.add_item("Stone Pickaxe", 1)
+	Inventory.add_item("Iron Pickaxe", 1)
+	Inventory.add_item("Wooden Hoe", 1)
+	Inventory.add_item("Iron Hoe", 1)
+	Inventory.add_item("Watering Can", 1)
 	hotbar = get_node("/root/World/HUD/Hotbar")
 	place_warning = get_node("/root/World/HUD/PlaceWarning")
 	place_warning.visible = false
@@ -93,23 +102,29 @@ func _on_left_release() -> void:
 
 func _get_tool_level(item_name: String) -> int:
 	if item_name == "":
-		return 0  # el (hand)
+		return 0
 	var item = ItemDB.get_item(item_name)
 	if item.get("type", "") == "tool":
 		return item.get("tier", 1)
-	return 0  # tool değilse el sayılır
+	return 0
+
+func _get_equipped_tool_type(item_name: String) -> String:
+	if item_name == "":
+		return ""
+	var item = ItemDB.get_item(item_name)
+	if item.get("type", "") == "tool":
+		return item.get("tool_type", "")
+	return ""
 
 # ── Breaking: basılı tut → progress bar dolar → kırılır ──
 func _try_start_breaking(item_name: String) -> void:
-	var tool_level = _get_tool_level(item_name)
 	var mouse_pos = get_global_mouse_position()
 	var best_node = null
 	var best_dist = INF
 	for node in get_tree().get_nodes_in_group("resource_node"):
 		if not node.player_nearby:
 			continue
-		var dist_to_player = node.global_position.distance_to(global_position)
-		if dist_to_player > BREAK_RANGE:
+		if node.global_position.distance_to(global_position) > BREAK_RANGE:
 			continue
 		var d = node.global_position.distance_to(mouse_pos)
 		if d < best_dist:
@@ -117,10 +132,31 @@ func _try_start_breaking(item_name: String) -> void:
 			best_node = node
 	if best_node == null:
 		return
-	if tool_level < best_node.break_level:
+
+	var req = best_node.required_tool_type
+	var is_hand = (item_name == "")
+
+	# El kontrolü
+	if is_hand and not best_node.hand_allowed:
+		_show_warning("Alet gerekli!")
+		return
+
+	# Yanlış alet tipi → engelle
+	if not is_hand and req != "" and _get_equipped_tool_type(item_name) != req:
+		const TOOL_NAMES = {"axe": "Balta", "pickaxe": "Kazma", "hoe": "Capa"}
+		_show_warning(TOOL_NAMES.get(req, "Uygun alet") + " gerekli!")
+		return
+
+	# Doğru alet tipiyse hız bonusu ver
+	var tool_level = 0
+	if not is_hand and req != "" and _get_equipped_tool_type(item_name) == req:
+		tool_level = _get_tool_level(item_name)
+
+	if tool_level < best_node.min_tier:
 		_show_warning("Daha guclu alet gerekli!")
 		return
-	var multiplier = tool_level - best_node.break_level + 1
+
+	var multiplier = tool_level - best_node.min_tier + 1
 	_is_breaking = true
 	_break_target = best_node
 	_break_progress = 0.0
@@ -135,6 +171,9 @@ func _update_breaking(delta: float) -> void:
 	_break_target.show_progress(ratio)
 	if _break_progress >= _break_effective_time:
 		_break_target._drop_and_destroy()
+		var used_item = hotbar.get_selected_item()
+		if used_item != "":
+			Inventory.use_tool(used_item)
 		_stop_breaking()
 
 func _stop_breaking() -> void:

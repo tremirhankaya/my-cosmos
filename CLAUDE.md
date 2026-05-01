@@ -181,6 +181,32 @@ Elle craft YOK — her şey station'da yapılır. Station türleri:
 
 ---
 
+## Asset Tasarım Notları
+
+### Karakter & Ekipman — Katmanlı Sprite Sistemi
+Zırh/ekipman giyilince karakter görünümü **katmanlı sprite** ile değişir:
+```
+Player
+  ├── BaseBody (AnimatedSprite2D)   ← çıplak karakter
+  ├── Helmet   (AnimatedSprite2D)   ← kask katmanı
+  ├── Chest    (AnimatedSprite2D)   ← göğüs zırhı
+  ├── Legs     (AnimatedSprite2D)   ← bacak zırhı
+  ├── ArmSprite (Sprite2D)          ← kol (omuzdan döner)
+  └── ToolSprite (Sprite2D)         ← ArmSprite child'ı, kolla döner
+```
+- Tüm AnimatedSprite2D'ler **aynı anda aynı animasyonu** oynar (idle_down, run_right vs.)
+- Ekipman giyilince o katmanın texture'ı değişir ve görünür olur
+- **KRİTİK:** Tüm ekipman sprite sheet'leri aynı frame boyutunda ve aynı pozisyonda çizilmeli — yoksa katmanlar kayar
+- Referans format: LPC (Liberated Pixel Cup) — tüm ekipmanlar aynı grid'e göre
+
+### Alet Animasyonu — Terraria Mantığı
+- Karakter idle/run oynarken `ArmSprite` + `ToolSprite` Tween ile rotate eder
+- Kırma/vurma başlayınca kol sallanır, duruncaa sıfırlanır
+- `facing_dir`'e göre başlangıç açısı değişir
+- Yeni alet seçilince sadece `ToolSprite.texture` güncellenir
+
+---
+
 ## Geliştirici Notları
 - Kullanıcı Godot öğreniyor — Godot konseptlerini açıkla
 - Değişiklik yapmadan önce kullanıcıyla netleştir, sonra kodla
